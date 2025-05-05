@@ -7,28 +7,29 @@ namespace cw4.Properties.Controllers;
 
 [ApiController]
 [Route("animals")]
-public class AnimalsController: ControllerBase
+public class AnimalsController : ControllerBase
 {
     public static List<Animal> animals = new List<Animal>();
-    
-    [HttpGet ("getAnimals")]
+
+    [HttpGet("getAnimals")]
     public IActionResult getAnimals()
     {
         return Ok(animals);
     }
-    [HttpGet ("getAnimals1/{name}")]
-    public IActionResult getAnimals(String name)
+
+    [HttpGet("getAnimalByName/{name}")]
+    public IActionResult getAnimalByName(String name)
     {
-        Animal animal=animals.FirstOrDefault(x => x.name == name);
+        Animal animal = animals.FirstOrDefault(x => x.name == name);
         if (animal == null)
             return NotFound();
         return Ok(animal);
     }
-    
-    [HttpGet ("getAnimals/{id}")]
-    public IActionResult getAnimal(int id )
+
+    [HttpGet("getAnimalById/{id}")]
+    public IActionResult getAnimalById(int id)
     {
-        var animal=animals.Where(a => a.id == id);
+        var animal = animals.Where(a => a.id == id);
         if (animal == null)
             return NotFound();
         return Ok(animal);
@@ -37,19 +38,28 @@ public class AnimalsController: ControllerBase
     [HttpPost("insertAnimals")]
     public void InsterAnimals(Animal animal)
     {
-     animals.Add(animal);
+        animals.Add(animal);
     }
-    
-    [HttpPut("updateAnimals")]
-    public void UpdateAnimals()
+
+
+[HttpPut("updateAnimal")]
+    public IActionResult UpdateAnimals([FromQuery] int id,[FromBody] Animal anotherAnimal)
     {
-        
+        var animal = animals.FirstOrDefault(x => x.id == id);
+        if (animal == null)
+            return NotFound();
+        animal.name = anotherAnimal.name;
+        animal.category = anotherAnimal.category;
+        animal.weight = anotherAnimal.weight;
+        animal.coatColor = anotherAnimal.coatColor;
+    return Ok(animal);
     }
-    
-    [HttpDelete("deleteAnimals/{id}")]
-    public void deleteAnimals(int id )
-    {
-        animals.RemoveAll(a => a.id == id);
-    }
-   
+
+
+[HttpDelete("deleteAnimal/{id}")]
+public void deleteAnimals(int id )
+{
+    animals.RemoveAll(a => a.id == id);
+}
+
 }
