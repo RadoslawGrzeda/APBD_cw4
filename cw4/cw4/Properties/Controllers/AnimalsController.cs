@@ -16,28 +16,40 @@ public class AnimalsController: ControllerBase
     {
         return Ok(animals);
     }
+    [HttpGet ("getAnimals1/{name}")]
+    public IActionResult getAnimals(String name)
+    {
+        Animal animal=animals.FirstOrDefault(x => x.name == name);
+        if (animal == null)
+            return NotFound();
+        return Ok(animal);
+    }
+    
     [HttpGet ("getAnimals/{id}")]
     public IActionResult getAnimal(int id )
     {
         var animal=animals.Where(a => a.id == id);
+        if (animal == null)
+            return NotFound();
         return Ok(animal);
     }
 
     [HttpPost("insertAnimals")]
     public void InsterAnimals(Animal animal)
     {
-     animals.Add(animal);   
-        
+     animals.Add(animal);
     }
+    
     [HttpPut("updateAnimals")]
     public void UpdateAnimals()
     {
         
     }
-    [HttpDelete("deleteAnimals")]
-    public void deleteAnimals()
+    
+    [HttpDelete("deleteAnimals/{id}")]
+    public void deleteAnimals(int id )
     {
-        
+        animals.RemoveAll(a => a.id == id);
     }
    
 }
