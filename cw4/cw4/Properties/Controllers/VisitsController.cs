@@ -23,11 +23,11 @@ public class VisitsController:ControllerBase
             return NotFound();
         return Ok(visit2);
     }
-    [HttpGet("getVisitWithAnimal/{Animal}")]
-    public IActionResult getAnimalByName(Animal animal)
+    [HttpGet("getVisitWithAnimal/{id}")]
+    public IActionResult getAnimalByName(int id )
     {
     // public static List<Visit> animalvis = new List<Visit>();
-    var visit2 = visit.Where(a => a.Animal == animal);
+    var visit2 = visit.Where(a => a.Animal.id == id).FirstOrDefault();
     if (visit2 == null)
         return NotFound();
     return Ok(visit2);

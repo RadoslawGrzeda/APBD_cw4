@@ -25,6 +25,12 @@ public class AnimalsController : ControllerBase
             return NotFound();
         return Ok(animal);
     }
+    [HttpGet("{id}/visits")]
+    public IActionResult GetVisitsForAnimal(int id)
+    {
+        var visitsForAnimal = VisitsController.visit.Where(v => v.Animal.id == id).ToList();
+        return Ok(visitsForAnimal);
+    }
 
     [HttpGet("getAnimalById/{id}")]
     public IActionResult getAnimalById(int id)
